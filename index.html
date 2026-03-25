@@ -524,9 +524,9 @@
                 alphabetGrid.appendChild(createCard(item, colorClass));
             });
 
-            // Last 3 letters - use colors from index 25, 26, 27 to match the pattern
+            // Last 3 letters - use colors from index 1, 2, 3 (Green, Blue, Yellow) to match the pattern
             paoAlphabet.slice(30, 33).forEach((item, idx) => {
-                const colorClass = colorClasses[(idx + 25) % colorClasses.length];
+                const colorClass = colorClasses[idx + 1];
                 lastThree.appendChild(createCard(item, colorClass));
             });
         }
