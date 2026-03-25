@@ -457,12 +457,12 @@
         const audioPlayer = document.getElementById('audioPlayer');
         const audioStatus = document.getElementById('audioStatus');
 
-        function playAudio(index, isNumber = false) {
+        function playAudio(uniqueId, index, isNumber = false) {
             // Stop current audio if any
             audioPlayer.pause();
             audioPlayer.currentTime = 0;
             
-            playingIndex = index;
+            playingIndex = uniqueId;
             updatePlayingStates();
 
             // Set audio source - use different folders for numbers and alphabet
@@ -487,8 +487,8 @@
 
         function updatePlayingStates() {
             document.querySelectorAll('.card').forEach(card => {
-                const index = parseInt(card.dataset.index);
-                if (index === playingIndex) {
+                const cardId = card.dataset.id;
+                if (cardId === playingIndex) {
                     card.classList.add('playing');
                 } else {
                     card.classList.remove('playing');
@@ -499,8 +499,12 @@
         function createCard(item, colorClass, isNumber = false) {
             const card = document.createElement('div');
             card.className = `card ${colorClass}`;
+            // Create unique ID for alphabet and numbers
+            const uniqueId = isNumber ? `num-${item.index}` : `alpha-${item.index}`;
+            card.dataset.id = uniqueId;
             card.dataset.index = item.index;
-            card.onclick = () => playAudio(item.index, isNumber);
+            card.dataset.isNumber = isNumber;
+            card.onclick = () => playAudio(uniqueId, item.index, isNumber);
             card.innerHTML = `
                 <div class="card-char">${item.char}</div>
                 <div class="card-pron">${item.pron}</div>
