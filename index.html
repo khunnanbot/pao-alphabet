@@ -782,7 +782,12 @@
                 const letter = document.createElement('div');
                 letter.className = 'falling-letter';
                 letter.textContent = randomAlphabet;
-                letter.style.left = Math.random() * 100 + '%';
+                // Generate position avoiding center area (30% to 70%)
+                let leftPos;
+                do {
+                    leftPos = Math.random() * 100;
+                } while (leftPos > 30 && leftPos < 70); // Avoid center area
+                letter.style.left = leftPos + '%';
                 letter.style.color = randomColor;
                 letter.style.animationDuration = (2.5 + Math.random() * 2) + 's';
                 letter.style.animationDelay = Math.random() * 0.5 + 's';
