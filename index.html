@@ -179,7 +179,7 @@
             }
             100% {
                 opacity: 0;
-                transform: translateY(600px) rotateZ(360deg);
+                transform: translateY(calc(100vh + 100px)) rotateZ(360deg);
             }
         }
 
@@ -782,21 +782,23 @@
                 const letter = document.createElement('div');
                 letter.className = 'falling-letter';
                 letter.textContent = randomAlphabet;
-                // Generate position avoiding center area (30% to 70%)
+                // Generate position: left side (0-25%) or right side (75-100%)
                 let leftPos;
-                do {
-                    leftPos = Math.random() * 100;
-                } while (leftPos > 30 && leftPos < 70); // Avoid center area
+                if (Math.random() < 0.5) {
+                    leftPos = Math.random() * 25; // Left side: 0-25%
+                } else {
+                    leftPos = 75 + Math.random() * 25; // Right side: 75-100%
+                }
                 letter.style.left = leftPos + '%';
                 letter.style.color = randomColor;
-                letter.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+                letter.style.animationDuration = (4 + Math.random() * 2) + 's';
                 letter.style.animationDelay = Math.random() * 0.5 + 's';
                 
                 container.appendChild(letter);
                 
                 setTimeout(() => {
                     letter.remove();
-                }, (2.5 + Math.random() * 2 + Math.random() * 0.5) * 1000);
+                }, (4 + Math.random() * 2 + Math.random() * 0.5) * 1000);
             }, 200);
         }
 
@@ -814,7 +816,7 @@
                 const welcomeScreen = document.getElementById('welcome-screen');
                 welcomeScreen.classList.add('hidden');
                 document.body.classList.remove('locked');
-            }, 4000); // Increased to 4 seconds to enjoy the animation
+            }, 5000); // 5 seconds for full animation
         });
     </script>
 </body>
