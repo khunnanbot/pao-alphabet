@@ -151,6 +151,37 @@
             100% { width: 100%; }
         }
 
+        /* Falling Alphabet Styles */
+        .falling-alphabets {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .falling-letter {
+            position: absolute;
+            font-size: 2rem;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100px) rotateZ(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(600px) rotateZ(360deg);
+            }
+        }
+
         body.locked {
             overflow: hidden;
         }
@@ -493,6 +524,7 @@
     <!-- Welcome Screen -->
     <div id="welcome-screen">
         <div class="welcome-content">
+            <div class="falling-alphabets" id="fallingAlphabets"></div>
             <div class="flag-container">
                 <div class="flag-pole"></div>
                 <img src="pao-flag.webp" alt="Pa'O Flag" class="pao-flag-img">
@@ -722,11 +754,53 @@
             }
         }
 
+        // Falling Alphabet Animation Function
+        function createFallingAlphabets() {
+            const alphabets = [
+                'က', 'ခ', 'ဂ', 'ဃ', 'င',
+                'စ', 'ဆ', 'ဇ', 'ဈ', 'ည',
+                'ဋ', 'ဌ', 'ဍ', 'ဎ', 'ဏ',
+                'တ', 'ထ', 'ဒ', 'ဓ', 'န',
+                'ပ', 'ဖ', 'ဗ', 'ဘ', 'မ',
+                'ယ', 'ရ', 'လ', 'ဝ', 'သ',
+                'ဟ', 'ဠ', 'အံ'
+            ];
+
+            const container = document.getElementById('fallingAlphabets');
+            
+            // Create falling letters continuously
+            const interval = setInterval(() => {
+                // Stop creating letters after 3.5 seconds
+                if (document.getElementById('welcome-screen').classList.contains('hidden')) {
+                    clearInterval(interval);
+                    return;
+                }
+
+                const randomAlphabet = alphabets[Math.floor(Math.random() * alphabets.length)];
+                const letter = document.createElement('div');
+                letter.className = 'falling-letter';
+                letter.textContent = randomAlphabet;
+                letter.style.left = Math.random() * 100 + '%';
+                letter.style.animationDuration = (2 + Math.random() * 2) + 's';
+                letter.style.animationDelay = Math.random() * 0.5 + 's';
+                
+                container.appendChild(letter);
+                
+                // Remove letter after animation completes
+                setTimeout(() => {
+                    letter.remove();
+                }, (2 + Math.random() * 2 + Math.random() * 0.5) * 1000);
+            }, 200); // Create new letter every 200ms
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             initializeAlphabet();
             initializeNumbers();
             audioStatus.textContent = '🔊 အသံထွက်အတွက် အက္ခရာ သို့မဟုတ် ဂဏန်းကို နှိပ်ပါ။';
+
+            // Start falling alphabet animation
+            createFallingAlphabets();
 
             // Welcome Screen Handling
             setTimeout(() => {
