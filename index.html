@@ -12,16 +12,36 @@
         }
 
         /* Welcome Screen Styles */
-        #welcome-screen {
-            position: fixed;
-            inset: 0;
-            background: #0f172a;
+        .welcome-content {
+            position: relative;
+            text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 9999;
-            transition: opacity 1s ease-out, visibility 1s;
+            height: 100vh;
+            gap: 2rem;
+        }
+
+        .flag-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .welcome-image {
+            position: relative;
+            z-index: 10;
+        }
+
+        .welcome-text {
+            position: relative;
+            z-index: 10;
+        }
+
+        .loading-bar-container {
+            position: relative;
+            z-index: 10;
+        }ransition: opacity 1s ease-out, visibility 1s;
         }
 
         #welcome-screen.hidden {
@@ -160,26 +180,36 @@
             left: 0;
             overflow: hidden;
             pointer-events: none;
-            padding: 0 80px; /* Keep center area clear for flag and image */
+            z-index: 1; /* Behind flag and people images */
         }
 
         .falling-letter {
             position: absolute;
-            font-size: 3.5rem; /* Increased from 2rem */
+            font-size: 3.5rem;
             font-weight: bold;
             text-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
-            animation: fall linear forwards;
+            animation: fall linear forwards, fadeIn 0.5s ease-in;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            opacity: 0.7;
         }
 
         @keyframes fall {
             0% {
-                opacity: 1;
+                opacity: 0.7;
                 transform: translateY(-100px) rotateZ(0deg);
             }
             100% {
                 opacity: 0;
                 transform: translateY(calc(100vh + 100px)) rotateZ(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 0.7;
             }
         }
 
@@ -782,13 +812,8 @@
                 const letter = document.createElement('div');
                 letter.className = 'falling-letter';
                 letter.textContent = randomAlphabet;
-                // Generate position: left side (0-25%) or right side (75-100%)
-                let leftPos;
-                if (Math.random() < 0.5) {
-                    leftPos = Math.random() * 25; // Left side: 0-25%
-                } else {
-                    leftPos = 75 + Math.random() * 25; // Right side: 75-100%
-                }
+                // Generate position: full width (0-100%) for background effect
+                const leftPos = Math.random() * 100;
                 letter.style.left = leftPos + '%';
                 letter.style.color = randomColor;
                 letter.style.animationDuration = (4 + Math.random() * 2) + 's';
