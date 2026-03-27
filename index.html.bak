@@ -755,7 +755,7 @@
             }
         }
 
-                // Falling Alphabet Animation Function
+        // Falling Alphabet Animation Function
         function createFallingAlphabets() {
             const alphabets = [
                 'က', 'ခ', 'ဂ', 'ဃ', 'င',
@@ -767,32 +767,31 @@
                 'ဟ', 'ဠ', 'အံ'
             ];
 
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe', '#fd79a8', '#fdcb6e', '#6c7a89', '#00b894', '#ff7675', '#74b9ff', '#fab1a0', '#55efc4', '#81ecec'];
-
             const container = document.getElementById('fallingAlphabets');
             
+            // Create falling letters continuously
             const interval = setInterval(() => {
+                // Stop creating letters after 3.5 seconds
                 if (document.getElementById('welcome-screen').classList.contains('hidden')) {
                     clearInterval(interval);
                     return;
                 }
 
                 const randomAlphabet = alphabets[Math.floor(Math.random() * alphabets.length)];
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
                 const letter = document.createElement('div');
                 letter.className = 'falling-letter';
                 letter.textContent = randomAlphabet;
                 letter.style.left = Math.random() * 100 + '%';
-                letter.style.color = randomColor;
-                letter.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+                letter.style.animationDuration = (2 + Math.random() * 2) + 's';
                 letter.style.animationDelay = Math.random() * 0.5 + 's';
                 
                 container.appendChild(letter);
                 
+                // Remove letter after animation completes
                 setTimeout(() => {
                     letter.remove();
-                }, (2.5 + Math.random() * 2 + Math.random() * 0.5) * 1000);
-            }, 200);
+                }, (2 + Math.random() * 2 + Math.random() * 0.5) * 1000);
+            }, 200); // Create new letter every 200ms
         }
 
         // Initialize on page load
